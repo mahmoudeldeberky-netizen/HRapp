@@ -110,8 +110,18 @@ Key design points:
   "effective_from": "2025-09-01",
   "annual_leave": {
     "base_days": 21,
-    "tiers": [{ "min_service_years": 10, "days": 30 }, { "min_age": 50, "days": 30 }],
-    "probation_months_before_eligible": 6
+    // Owner-authored clauses & exceptions. Semantics: "set" clauses take the
+    // highest value whose condition matches; "add" clauses stack on top.
+    // Conditions: min_service_years, min_age, work_context (remote_area,
+    // hazardous, ...), employment_type — extensible without schema changes.
+    "clauses": [
+      { "if": { "min_service_years": 10 }, "then": { "set_days": 30 } },
+      { "if": { "min_age": 50 }, "then": { "set_days": 30 } },
+      { "if": { "work_context": "remote_area" }, "then": { "add_days": 7 } }
+    ],
+    "probation_months_before_eligible": 6,
+    "legal_text_ar": "نص المادة القانونية كما كتبه المشرف…",
+    "legal_text_en": null
   },
   "working_hours": { "max_daily": 8, "max_weekly": 48 },
   "overtime": { "day_multiplier": 1.35, "night_multiplier": 1.70, "holiday_multiplier": 2.0 },
@@ -136,11 +146,17 @@ Key design points:
 4. **Fallback & cache** — the latest published rule-set per country is cached in SQLite for
    offline reads; the engine refuses to run *payroll* on stale rules older than a
    configurable threshold (compliance safety).
-5. **Admin-owned rules, no developers in the loop** — the Super/Country Admin edits every
-   parameter (leave days & tiers, overtime multipliers, tax brackets, insurance rates/caps,
-   EOS formulas) in a visual Rule Editor with a live salary preview, then publishes; the
-   draft → review → publish cycle and effective dating make each change auditable. v2 adds
-   sandboxed custom formula expressions for calculations the typed schema doesn't cover.
+5. **Admin-owned rules, no developers in the loop** — the Super/Country Admin *authors the
+   law itself*: the general rule plus every clause and exception as condition→effect pairs
+   (e.g. "if service ≥ 10 years → balance becomes 30", "if remote-area worker → add 7
+   days"), free legal text attached per article, all in a visual Rule Editor with a live
+   "test on an employee" simulator and salary preview. Draft → review → publish with
+   effective dating makes each change auditable, and any published version can be rolled
+   back in one tap (undo at the platform level). v2 adds sandboxed custom formula
+   expressions for calculations the clause schema doesn't cover.
+6. **Owner-editable platform vocabulary** — role display names (and other UI vocabulary)
+   live in `platform_settings`, editable by the Super Admin at runtime; the internal wire
+   values used by JWTs/RLS never change, only what users see.
 
 ## 6. Functional Module Map
 

@@ -93,6 +93,11 @@ erDiagram
 | `objectives` / `key_results` | OKRs: owner, alignment (`parent_objective_id`), `progress`, `weight` |
 | `evaluations` | `cycle_id`, `employee_id`, `reviewer_id`, `kind (self/manager/peer/360)`, `scores jsonb`, `status` |
 
+### Platform Settings
+| Table | Purpose |
+|---|---|
+| `platform_settings` | Owner-editable key/value config (jsonb): role display names, feature toggles, branding. World-readable, Super-Admin-writable. *(migration `0003`)* |
+
 ### Learning & Media
 | Table | Purpose |
 |---|---|
