@@ -1,0 +1,18 @@
+{
+  "@@locale": "en",
+  "appTitle": "HR Super-App",
+  "emailLabel": "Email address",
+  "otpLabel": "Verification code",
+  "sendCode": "Send code",
+  "verifyCode": "Verify & sign in",
+  "signInError": "Sign-in failed. Please check your details and try again.",
+  "signOut": "Sign out",
+  "notAuthorized": "You are not authorized to view this page",
+  "toggleTheme": "Toggle dark / light mode",
+  "toggleLanguage": "العربية",
+  "modulePlatformAdmin": "Platform Administration",
+  "moduleCountryContent": "Labor Laws & Decrees",
+  "moduleCompanyDashboard": "Company Dashboard",
+  "moduleSelfService": "My Self-Service",
+  "moduleCvBuilder": "CV Builder & Jobs"
+}

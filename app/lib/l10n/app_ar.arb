@@ -1,0 +1,18 @@
+{
+  "@@locale": "ar",
+  "appTitle": "تطبيق الموارد البشرية الشامل",
+  "emailLabel": "البريد الإلكتروني",
+  "otpLabel": "رمز التحقق",
+  "sendCode": "إرسال الرمز",
+  "verifyCode": "تحقق وسجّل الدخول",
+  "signInError": "فشل تسجيل الدخول. يرجى التحقق من البيانات والمحاولة مرة أخرى.",
+  "signOut": "تسجيل الخروج",
+  "notAuthorized": "غير مصرح لك بعرض هذه الصفحة",
+  "toggleTheme": "تبديل الوضع الداكن / الفاتح",
+  "toggleLanguage": "English",
+  "modulePlatformAdmin": "إدارة المنصة",
+  "moduleCountryContent": "قوانين العمل والمراسيم",
+  "moduleCompanyDashboard": "لوحة تحكم الشركة",
+  "moduleSelfService": "الخدمة الذاتية",
+  "moduleCvBuilder": "منشئ السيرة الذاتية والوظائف"
+}

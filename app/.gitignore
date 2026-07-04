@@ -1,0 +1,18 @@
+# Flutter / Dart
+.dart_tool/
+.packages
+build/
+.flutter-plugins
+.flutter-plugins-dependencies
+*.iml
+.idea/
+
+# Generated localization (recreate with: flutter gen-l10n)
+lib/l10n/app_localizations.dart
+lib/l10n/app_localizations_*.dart
+
+# Env / secrets — never commit
+*.env
+.env*
+**/google-services.json
+**/GoogleService-Info.plist
