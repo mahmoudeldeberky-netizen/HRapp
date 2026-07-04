@@ -110,8 +110,18 @@ Key design points:
   "effective_from": "2025-09-01",
   "annual_leave": {
     "base_days": 21,
-    "tiers": [{ "min_service_years": 10, "days": 30 }, { "min_age": 50, "days": 30 }],
-    "probation_months_before_eligible": 6
+    // Owner-authored clauses & exceptions. Semantics: "set" clauses take the
+    // highest value whose condition matches; "add" clauses stack on top.
+    // Conditions: min_service_years, min_age, work_context (remote_area,
+    // hazardous, ...), employment_type — extensible without schema changes.
+    "clauses": [
+      { "if": { "min_service_years": 10 }, "then": { "set_days": 30 } },
+      { "if": { "min_age": 50 }, "then": { "set_days": 30 } },
+      { "if": { "work_context": "remote_area" }, "then": { "add_days": 7 } }
+    ],
+    "probation_months_before_eligible": 6,
+    "legal_text_ar": "نص المادة القانونية كما كتبه المشرف…",
+    "legal_text_en": null
   },
   "working_hours": { "max_daily": 8, "max_weekly": 48 },
   "overtime": { "day_multiplier": 1.35, "night_multiplier": 1.70, "holiday_multiplier": 2.0 },
@@ -136,6 +146,17 @@ Key design points:
 4. **Fallback & cache** — the latest published rule-set per country is cached in SQLite for
    offline reads; the engine refuses to run *payroll* on stale rules older than a
    configurable threshold (compliance safety).
+5. **Admin-owned rules, no developers in the loop** — the Super/Country Admin *authors the
+   law itself*: the general rule plus every clause and exception as condition→effect pairs
+   (e.g. "if service ≥ 10 years → balance becomes 30", "if remote-area worker → add 7
+   days"), free legal text attached per article, all in a visual Rule Editor with a live
+   "test on an employee" simulator and salary preview. Draft → review → publish with
+   effective dating makes each change auditable, and any published version can be rolled
+   back in one tap (undo at the platform level). v2 adds sandboxed custom formula
+   expressions for calculations the clause schema doesn't cover.
+6. **Owner-editable platform vocabulary** — role display names (and other UI vocabulary)
+   live in `platform_settings`, editable by the Super Admin at runtime; the internal wire
+   values used by JWTs/RLS never change, only what users see.
 
 ## 6. Functional Module Map
 
@@ -146,7 +167,8 @@ Key design points:
 | Time & Attendance | Geo-fenced clock-in (Haversine check vs `work_sites`), FaceID/Fingerprint gate (`local_auth`), shift scheduling, leave workflows validated by ComplianceEngine | `attendance_records`, `shifts`, `leave_requests`, `work_sites` |
 | Payroll | Country-rule payroll runs (Edge Function, idempotent, effective-dated rules), payslip PDF generation, multi-currency | `payroll_runs`, `payroll_items`, `payslips`, `salary_structures` |
 | Performance | KPI/OKR trees, review cycles, 360° feedback | `objectives`, `key_results`, `review_cycles`, `evaluations` |
-| Compliance | Decree ingestion, rule-set authoring/review/publish, law library (searchable, offline) | `law_documents`, `compliance_rule_sets` |
+| Compliance | Decree ingestion, visual Rule Editor with live preview, review/publish workflow, law library (searchable, offline) | `law_documents`, `compliance_rule_sets` |
+| Learning & Media | Admin-curated explainer videos (YouTube links) with global / per-country / per-company scoping, in-app playback, categories | `learning_videos` |
 
 ## 7. AI CV Parser — Logic Blueprint
 

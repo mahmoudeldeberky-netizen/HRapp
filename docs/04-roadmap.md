@@ -12,7 +12,16 @@ Two-week sprints. Each phase ends with a releasable increment behind feature fla
 
 ## Phase 1 — Compliance Engine + Core HR (Sprints 3–5, ~6 weeks)
 - Law library: decree upload (PDF), bilingual articles, search, offline replica.
-- Rule-set authoring UI (Country Admin), versioning, review→publish workflow, effective dating.
+- Visual Rule Editor (Super/Country Admin): the owner authors the law itself — general
+  rule + condition→effect clauses and exceptions (service years, age, remote-area work,
+  employment type), attached legal text, overtime %, tax brackets, insurance rates/caps —
+  with a live "test on an employee" simulator and salary preview; versioning,
+  review→publish workflow, effective dating, one-tap rollback (undo), and undo history in
+  every editor. The owner controls the rules, not developers.
+- Platform settings: owner-editable role display names and UI vocabulary
+  (`platform_settings`), applied live across all clients.
+- Learning & Media Library: admins paste YouTube links (global / per-country / per-company),
+  categorized, played in-app; readable by all roles including guests.
 - `ComplianceEngine`: annual-leave entitlement, working hours/overtime params, tax brackets,
   social insurance, EOS gratuity, termination notice — full unit-test matrix for the first
   3 launch countries (e.g., EG, SA, AE).

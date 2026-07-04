@@ -93,6 +93,16 @@ erDiagram
 | `objectives` / `key_results` | OKRs: owner, alignment (`parent_objective_id`), `progress`, `weight` |
 | `evaluations` | `cycle_id`, `employee_id`, `reviewer_id`, `kind (self/manager/peer/360)`, `scores jsonb`, `status` |
 
+### Platform Settings
+| Table | Purpose |
+|---|---|
+| `platform_settings` | Owner-editable key/value config (jsonb): role display names, feature toggles, branding. World-readable, Super-Admin-writable. *(migration `0003`)* |
+
+### Learning & Media
+| Table | Purpose |
+|---|---|
+| `learning_videos` | Admin-curated explainer videos (YouTube links): bilingual titles/descriptions, `video_url`/`video_key`, `category`, `duration_seconds`, publish flag. Scoping: `tenant_id IS NULL` = global platform content (optionally country-targeted via `country_code`); `tenant_id` set = a company's private library. *(migration `0002`)* |
+
 ### Audit & Privacy
 | Table | Purpose |
 |---|---|
