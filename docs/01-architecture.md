@@ -136,6 +136,11 @@ Key design points:
 4. **Fallback & cache** — the latest published rule-set per country is cached in SQLite for
    offline reads; the engine refuses to run *payroll* on stale rules older than a
    configurable threshold (compliance safety).
+5. **Admin-owned rules, no developers in the loop** — the Super/Country Admin edits every
+   parameter (leave days & tiers, overtime multipliers, tax brackets, insurance rates/caps,
+   EOS formulas) in a visual Rule Editor with a live salary preview, then publishes; the
+   draft → review → publish cycle and effective dating make each change auditable. v2 adds
+   sandboxed custom formula expressions for calculations the typed schema doesn't cover.
 
 ## 6. Functional Module Map
 
@@ -146,7 +151,8 @@ Key design points:
 | Time & Attendance | Geo-fenced clock-in (Haversine check vs `work_sites`), FaceID/Fingerprint gate (`local_auth`), shift scheduling, leave workflows validated by ComplianceEngine | `attendance_records`, `shifts`, `leave_requests`, `work_sites` |
 | Payroll | Country-rule payroll runs (Edge Function, idempotent, effective-dated rules), payslip PDF generation, multi-currency | `payroll_runs`, `payroll_items`, `payslips`, `salary_structures` |
 | Performance | KPI/OKR trees, review cycles, 360° feedback | `objectives`, `key_results`, `review_cycles`, `evaluations` |
-| Compliance | Decree ingestion, rule-set authoring/review/publish, law library (searchable, offline) | `law_documents`, `compliance_rule_sets` |
+| Compliance | Decree ingestion, visual Rule Editor with live preview, review/publish workflow, law library (searchable, offline) | `law_documents`, `compliance_rule_sets` |
+| Learning & Media | Admin-curated explainer videos (YouTube links) with global / per-country / per-company scoping, in-app playback, categories | `learning_videos` |
 
 ## 7. AI CV Parser — Logic Blueprint
 
